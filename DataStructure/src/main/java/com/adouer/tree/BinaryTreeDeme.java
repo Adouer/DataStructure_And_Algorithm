@@ -65,8 +65,7 @@ public class BinaryTreeDeme {
      * 节点类
      */
     @Data
-    static
-    class HeroNode {
+    static class HeroNode {
         private int no;
         private String name;
         private HeroNode left; //左子节点 默认 null
@@ -216,89 +215,90 @@ public class BinaryTreeDeme {
             }
         }
     }
-        /**
-         * 二叉树类
-         */
-        @Data
-        static
-        class BinaryTree {
-            private HeroNode root;
 
-            public void setRoot(HeroNode root) {
-                this.root = root;
+    /**
+     * 二叉树类
+     */
+    @Data
+    static
+    class BinaryTree {
+        private HeroNode root;
+
+        public void setRoot(HeroNode root) {
+            this.root = root;
+        }
+
+        //前序遍历
+        public void preOrder() {
+            if (this.root != null) {
+                this.root.preOrder();
+            } else {
+                System.out.println("二叉树为空，无法遍历");
             }
+        }
 
-            //前序遍历
-            public void preOrder() {
-                if (this.root != null) {
-                    this.root.preOrder();
-                } else {
-                    System.out.println("二叉树为空，无法遍历");
-                }
+        //中序遍历
+        public void infixOrder() {
+            if (this.root != null) {
+                this.root.infixOrder();
+            } else {
+                System.out.println("二叉树为空，无法遍历");
             }
+        }
 
-            //中序遍历
-            public void infixOrder() {
-                if (this.root != null) {
-                    this.root.infixOrder();
-                } else {
-                    System.out.println("二叉树为空，无法遍历");
-                }
+        //后序遍历
+        public void postOrder() {
+
+            if (this.root != null) {
+                this.root.postOrder();
+            } else {
+                System.out.println("二叉树为空，无法遍历");
             }
+        }
 
-            //后序遍历
-            public void postOrder() {
-
-                if (this.root != null) {
-                    this.root.postOrder();
-                } else {
-                    System.out.println("二叉树为空，无法遍历");
-                }
+        //前序遍历指定节点
+        public HeroNode preOrderSearch(int no) {
+            //根节点不为空
+            if (this.root != null) {
+                return this.root.preOrderSearch(no);
+            } else {
+                return null;
             }
+        }
 
-            //前序遍历指定节点
-            public HeroNode preOrderSearch(int no) {
-                //根节点不为空
-                if (this.root != null) {
-                    return this.root.preOrderSearch(no);
-                } else {
-                    return null;
-                }
+        //中序遍历指定节点
+        public HeroNode infixOrderSearch(int no) {
+            //根节点不为空
+            if (this.root != null) {
+                return this.root.infixOrderSearch(no);
+            } else {
+                return null;
             }
+        }
 
-            //中序遍历指定节点
-            public HeroNode infixOrderSearch(int no) {
-                //根节点不为空
-                if (this.root != null) {
-                    return this.root.infixOrderSearch(no);
-                } else {
-                    return null;
-                }
+        //后序遍历指定节点
+        public HeroNode postOrderSearch(int no) {
+            //根节点不为空
+            if (this.root != null) {
+                return this.root.postOrderSearch(no);
+            } else {
+                return null;
             }
+        }
 
-            //后序遍历指定节点
-            public HeroNode postOrderSearch(int no) {
-                //根节点不为空
-                if (this.root != null) {
-                    return this.root.postOrderSearch(no);
+        //删除结点
+        public void delNode(int no) {
+            if (root != null) {
+                //判断root是不是就是要删除结点
+                if (root.getNo() == no) {
+                    root = null;
                 } else {
-                    return null;
+                    //递归删除
+                    root.delNode(no);
                 }
-            }
-
-            //删除结点
-            public void delNode(int no) {
-                if (root != null) {
-                    //判断root是不是就是要删除结点
-                    if (root.getNo() == no) {
-                        root = null;
-                    } else {
-                        //递归删除
-                        root.delNode(no);
-                    }
-                } else {
-                    System.out.println("空树，不能删除~");
-                }
+            } else {
+                System.out.println("空树，不能删除~");
             }
         }
     }
+}

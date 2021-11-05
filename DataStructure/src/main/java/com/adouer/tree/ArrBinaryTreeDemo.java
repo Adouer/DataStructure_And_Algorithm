@@ -10,10 +10,11 @@ public class ArrBinaryTreeDemo {
         //创建一个 ArrBinaryTree
         ArrBinaryTree arrBinaryTree = new ArrBinaryTree(arr);
         arrBinaryTree.preOrder(); // 1,2,4,5,3,6,7
+
     }
 }
 
-/**
+/**F
  * 编写一个 ArrayBinaryTree,  实现顺序存储二叉树遍历
  */
 class ArrBinaryTree {
