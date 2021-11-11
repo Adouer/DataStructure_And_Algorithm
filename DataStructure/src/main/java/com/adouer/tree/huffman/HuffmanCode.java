@@ -16,23 +16,72 @@ public class HuffmanCode {
     public static void main(String[] args) {
 
         String content = "i like like like java do you like a java";
+        byte[] bytes = huffmanZip(content);
+        System.out.println("赫夫曼编码压缩后 = " + Arrays.toString(bytes));
+    }
+
+    /**
+     * 赫夫曼编码压缩文本
+     * @param content
+     * @return
+     */
+    public static byte[] huffmanZip(String content) {
         //1.根据文本内容封装节点信息
         List<Node> nodes = getNodeList(content);
         //2.用节点信息生成对应的赫夫曼树
         Node root = getHuffmanTree(nodes);
         root.preOrder();
-        //3.根据赫夫曼树生成赫夫曼编码
+        //3.根据赫夫曼树生成赫夫曼编码表
         getCode(root);
-        System.out.println("huffmanCodes = " + huffmanCodes);
+        System.out.println("赫夫曼编码表 = " + huffmanCodes);
+        //4.将文本内容转换为赫夫曼编码
+        byte[] bytes = zipCode(content, huffmanCodes);
+        return bytes;
     }
 
-    public static Map<Byte,String> getCode(Node root){
+    /**
+     * 压缩
+     * @param content   文本内容
+     * @param huffmanCodes  赫夫曼编码表
+     * @return
+     */
+    public static byte[] zipCode(String content, Map<Byte, String> huffmanCodes) {
+        //1.将文本内容转换为字节数组
+        byte[] bytes = content.getBytes(StandardCharsets.UTF_8);//40
+        System.out.println("赫夫曼编码压缩前 = " + Arrays.toString(bytes));
+        //2.将字节数组转换为赫夫曼编码压缩有的字节数组
+        //2.1通过赫夫曼编码表，将字节数组转换为二进制形式的字符串
+        StringBuilder stringBuilder = new StringBuilder();
+        for (byte b : bytes) {
+            stringBuilder.append(huffmanCodes.get(b));
+        }
+        //2.2将字符串形式的二进制转换为二进制字节数组
+        String strCode = stringBuilder.toString();
+        int strCodeLength = strCode.length();
+        int length = strCodeLength % 8 == 0 ? strCodeLength / 8 : strCodeLength / 8 + 1;
+        byte[] zipCode = new byte[length];
+        int index = 0;
+        for (int i = 0; i < strCodeLength; i += 8) {
+            zipCode[index] = (byte) Integer.parseInt(strCode.substring(i, i + 8 > strCodeLength ? strCodeLength : i + 8), 2);
+            index++;
+        }
+        return zipCode;
+
+    }
+
+    /**
+     * 赫夫曼编码表
+     *
+     * @param root
+     * @return
+     */
+    public static Map<Byte, String> getCode(Node root) {
         StringBuilder stringBuilder = new StringBuilder();
         if (root == null) {
             return null;
         }
-        getCode(root.left,"0",stringBuilder);
-        getCode(root.right,"1",stringBuilder);
+        getCode(root.left, "0", stringBuilder);
+        getCode(root.right, "1", stringBuilder);
         return huffmanCodes;
     }
 
@@ -69,7 +118,7 @@ public class HuffmanCode {
      */
     public static List<Node> getNodeList(String content) {
         //将内容转换为字节数组
-        byte[] bytes = content.getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = content.getBytes(StandardCharsets.UTF_8);    //长度40
         Map<Byte, Integer> map = new HashMap<Byte, Integer>();
         List<Node> nodes = new ArrayList<>();
         //统计每个字符出现的次数作为权值，存map
