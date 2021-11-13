@@ -9,19 +9,95 @@ import java.util.*;
 public class HuffmanCode {
 
     /**
-     * 哈弗曼编码map
+     * 哈弗曼编码表map
      */
     private static Map<Byte, String> huffmanCodes = new HashMap<Byte, String>();
 
     public static void main(String[] args) {
 
         String content = "i like like like java do you like a java";
-        byte[] bytes = huffmanZip(content);
-        System.out.println("赫夫曼编码压缩后 = " + Arrays.toString(bytes));
+        //将文本内容进行赫夫曼编码压缩
+        byte[] huffmanZipByte = huffmanZip(content);
+        System.out.println("赫夫曼编码压缩后 = " + Arrays.toString(huffmanZipByte));
+
+
+        int a = -28;
+        System.out.println(Integer.toBinaryString(a));
+        System.out.println(Integer.toBinaryString(256 | a));
+        //压缩后的内容解码
+        String decode = decode(huffmanZipByte);
+        System.out.println("赫夫曼解码 = " + decode);
+    }
+
+    /**
+     * 将压缩后的二进制字节数组解码成文本内容
+     * [-88...]->"1101...."->[105,32.....]
+     * 1.将压缩后的字节数组转换为二进制编码字符串（[-88...]->"1101...."）
+     * 2.将二进制编码字符串根据编码表恢复压缩前的数组 "1101...."->[105,32.....]
+     * 3.将原数组恢复成文本内容
+     *
+     * @param huffmanZipByte
+     * @return
+     */
+    private static String decode(byte[] huffmanZipByte) {
+        // 1.将压缩后的字节数组转换为二进制编码字符串（[-88...]->"1101...."）
+        String s = byteToString(huffmanZipByte);
+        System.out.println("s = " + s);
+        // 2.将二进制编码字符串根据编码表恢复压缩前的数组 "1101...."->[105,32.....]
+        // 2.1赫夫曼编码表key,v反转
+        HashMap<String, Byte> stringByteHashMap = new HashMap<String, Byte>();
+        ArrayList<Byte> bytesList = new ArrayList<Byte>();
+        huffmanCodes.forEach((b, str) -> {
+            stringByteHashMap.put(str, b);
+        });
+        // 2.2扫描二进制编码字符串，翻译成压缩前的数组
+        int step = 1;
+        int start = 0;
+        for (int i = 0; i < s.length(); i++) {
+            String tempStr = s.substring(start, start + step);
+            if (stringByteHashMap.containsKey(tempStr)) {
+                bytesList.add(stringByteHashMap.get(tempStr));
+                start += step;
+                step = 0;
+            }
+            step++;
+        }
+        System.out.println("bytesList = " + bytesList);
+        //2.3将二进制字节数组翻译成文本
+        StringBuilder stringBuilder = new StringBuilder();
+
+        Byte[] bytes1 = bytesList.toArray(new Byte[bytesList.size()]);
+        byte[] bytes = new byte[bytesList.size()];
+        for (int i = 0; i < bytesList.size(); i++) {
+            bytes[i] = bytesList.get(i);
+        }
+        return new String(bytes);
+    }
+
+    /**
+     * 将压缩后的字节数组转换为二进制编码字符串
+     *
+     * @param huffmanZipByte
+     */
+    private static String byteToString(byte[] huffmanZipByte) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < huffmanZipByte.length; i++) {
+            String byteStr = "";
+            if (huffmanZipByte.length - 1 == i) {
+                byteStr = Integer.toBinaryString(huffmanZipByte[i]);
+                stringBuilder.append(byteStr);
+
+            } else {
+                byteStr = Integer.toBinaryString(huffmanZipByte[i] | 256);
+                stringBuilder.append(byteStr.substring(byteStr.length() - 8, byteStr.length()));
+            }
+        }
+        return stringBuilder.toString();
     }
 
     /**
      * 赫夫曼编码压缩文本
+     *
      * @param content
      * @return
      */
@@ -41,12 +117,13 @@ public class HuffmanCode {
 
     /**
      * 压缩
-     * @param content   文本内容
-     * @param huffmanCodes  赫夫曼编码表
+     *
+     * @param content      文本内容
+     * @param huffmanCodes 赫夫曼编码表
      * @return
      */
     public static byte[] zipCode(String content, Map<Byte, String> huffmanCodes) {
-        //1.将文本内容转换为字节数组
+        //1.将文本内容转换为字节数组([105，32,...])
         byte[] bytes = content.getBytes(StandardCharsets.UTF_8);//40
         System.out.println("赫夫曼编码压缩前 = " + Arrays.toString(bytes));
         //2.将字节数组转换为赫夫曼编码压缩有的字节数组
@@ -57,6 +134,7 @@ public class HuffmanCode {
         }
         //2.2将字符串形式的二进制转换为二进制字节数组
         String strCode = stringBuilder.toString();
+        System.out.println("赫夫曼编码生成的二进制字符串=" + strCode);
         int strCodeLength = strCode.length();
         int length = strCodeLength % 8 == 0 ? strCodeLength / 8 : strCodeLength / 8 + 1;
         byte[] zipCode = new byte[length];
