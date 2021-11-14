@@ -1,5 +1,6 @@
 package com.adouer.tree.huffman;
 
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -20,13 +21,55 @@ public class HuffmanCode {
         byte[] huffmanZipByte = huffmanZip(content);
         System.out.println("赫夫曼编码压缩后 = " + Arrays.toString(huffmanZipByte));
 
-
         int a = -28;
         System.out.println(Integer.toBinaryString(a));
         System.out.println(Integer.toBinaryString(256 | a));
-        //压缩后的内容解码
+        //压缩后的内容解码为文本
         String decode = decode(huffmanZipByte);
         System.out.println("赫夫曼解码 = " + decode);
+
+        //文件压缩
+        //zipFile("d://b.pdf", "d://b.zip");
+
+    }
+
+    /**
+     * 【文件压缩】将指定文件按照赫夫曼编码进行压缩
+     *
+     * @param srcFile
+     * @param disFile
+     */
+    private static void zipFile(String srcFile, String disFile) {
+        File file = new File(srcFile);
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
+        try {
+            /*
+            输入流读取文件
+             */
+            fis = new FileInputStream(file);
+            byte[] bytes = new byte[fis.available()];
+            fis.read(bytes);
+            /*
+            输出
+             */
+            //进行哈夫曼压缩
+            // TODO 这里应该直接用byte进行压缩，不能new String(bytes),后期修改
+            byte[] huffmanZipBytes = huffmanZip(new String(bytes));
+            fos = new FileOutputStream(disFile);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fos);
+            objectOutputStream.writeObject(huffmanZipBytes);
+            objectOutputStream.writeObject(huffmanCodes);
+            System.out.println("文件压缩成功");
+        } catch (IOException e) {
+            try {
+                fis.close();
+                fos.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        }
     }
 
     /**
