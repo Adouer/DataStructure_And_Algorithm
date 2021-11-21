@@ -2,6 +2,7 @@ package com.adouer.binarysearch;
 
 /**
  * 二分查抄非递归
+ * @author adouer
  */
 public class BinarySearchNoRecur {
     public static void main(String[] args) {
