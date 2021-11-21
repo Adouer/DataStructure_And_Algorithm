@@ -13,7 +13,7 @@ public class GraphDemo {
         //传入n,构建一个n*n的邻接矩阵
         GraphDemo graph = new GraphDemo(5);
         //为所有节点赋值
-        graph.vertexList = Arrays.asList(new String[]{"A", "B", "C", "D"});
+        graph.vertexList = Arrays.asList(new String[]{"A", "B", "C", "D","E"});
         //节点关系赋值（实例化邻接矩阵）
         graph.insertEdge(0, 1, 1);
         graph.insertEdge(0, 2, 1);
