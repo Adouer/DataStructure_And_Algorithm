@@ -2,6 +2,7 @@ package com.adouer.graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -25,7 +26,9 @@ public class GraphDemo {
         System.out.println(graph.numOfEdges);
         //dfs深度遍历
         graph.dfs();
-
+        System.out.println();
+        //bfs广度优先遍历
+        graph.bfs();
     }
 
     /**
@@ -135,7 +138,7 @@ public class GraphDemo {
         //查找当前节点的下一个节点
         int w = getNeighbor(i);
         //如果当前节点有下一个邻接节点
-        if (w != -1) {
+        while (w != -1) {
             //如果没有被访问过
             if (!isVisited[w]) {
                 dfs(w);
@@ -154,6 +157,55 @@ public class GraphDemo {
         for (int i = 0; i < vertexList.size(); i++) {
             if (!isVisited[i]) {
                 dfs(i);
+            }
+        }
+    }
+
+    /**
+     * 对一个结点进行广度优先遍历的方法
+     * @param i
+     */
+    private void bfs(int i) {
+        int u; // 表示队列的头结点对应下标
+        int w; // 邻接结点w
+        //队列，记录结点访问的顺序
+        LinkedList queue = new LinkedList();
+        //访问结点，输出结点信息
+        System.out.print(getValueByIndex(i) + "=>");
+        //标记为已访问
+        isVisited[i] = true;
+        //将结点加入队列
+        queue.addLast(i);
+
+        while (!queue.isEmpty()) {
+            //取出队列的头结点下标
+            u = (Integer) queue.removeFirst();
+            //得到第一个邻接结点的下标 w
+            w = getNeighbor(u);
+            while (w != -1) {//找到
+                //没有被访问过
+                if (!isVisited[w]) {
+                    System.out.print(getValueByIndex(w) + "=>");
+                    //标记已经访问
+                    isVisited[w] = true;
+                    //入队
+                    queue.addLast(w);
+                }
+                //以u为前驱点，找w后面的下一个邻结点
+                w = getNextNeighbor(u, w); //体现出我们的广度优先
+            }
+        }
+
+    }
+
+    /**
+     * 遍历所有的结点，都进行广度优先搜索
+     */
+    public void bfs() {
+        isVisited = new boolean[vertexList.size()];
+        for (int i = 0; i < vertexList.size(); i++) {
+            if (!isVisited[i]) {
+                bfs(i);
             }
         }
     }
