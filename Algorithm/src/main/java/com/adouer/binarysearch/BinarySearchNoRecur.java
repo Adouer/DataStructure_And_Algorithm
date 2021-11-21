@@ -1,4 +1,4 @@
-package binarysearch;
+package com.adouer.binarysearch;
 
 /**
  * 二分查抄非递归
