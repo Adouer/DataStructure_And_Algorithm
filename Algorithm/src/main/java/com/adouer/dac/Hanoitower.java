@@ -1,7 +1,7 @@
 package com.adouer.dac;
 
 /**
- * 汉诺塔
+ * 分治算法--汉诺塔
  * @author adouer
  */
 public class Hanoitower {
