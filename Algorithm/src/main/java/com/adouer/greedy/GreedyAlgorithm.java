@@ -7,6 +7,7 @@ import java.util.Map;
 
 /**
  * 贪心算法
+ * @author adouer
  */
 public class GreedyAlgorithm {
 
