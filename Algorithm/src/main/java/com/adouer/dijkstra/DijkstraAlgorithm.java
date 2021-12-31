@@ -93,8 +93,8 @@ public class DijkstraAlgorithm {
          */
         public void update(int index) {
             int len = 0;
-            //指定节点（G点）到当前节点（index节点）的距离+当前节点到周围各个节点的距离
             for (int i = 0; i < matrix[index].length; i++) {
+                //指定节点（G点）到当前节点（index节点）的距离+当前节点到周围各个节点的距离
                 len = vv.dis[index] + matrix[index][i];
                 //如果i节点没有被访问过，并且len<i节点直接到指定节点（G节点）的距离
                 if (vv.already_arr[i] == 0 && len < vv.dis[i]) {
@@ -150,8 +150,11 @@ public class DijkstraAlgorithm {
          */
         public int updateArr() {
             int min = 65535, index = 0;
-            //选出了离上个节点最近且没有访问过的节点
+            //选出了离跟节点最近且没有访问过的节点
             for (int i = 0; i < already_arr.length; i++) {
+                if (i==2) {
+                    System.out.println("c");
+                }
                 if (already_arr[i] == 0 && dis[i] < min) {
                     min = dis[i];
                     index = i;
