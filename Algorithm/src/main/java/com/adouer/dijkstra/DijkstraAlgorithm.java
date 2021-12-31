@@ -152,9 +152,6 @@ public class DijkstraAlgorithm {
             int min = 65535, index = 0;
             //选出了离跟节点最近且没有访问过的节点
             for (int i = 0; i < already_arr.length; i++) {
-                if (i==2) {
-                    System.out.println("c");
-                }
                 if (already_arr[i] == 0 && dis[i] < min) {
                     min = dis[i];
                     index = i;
