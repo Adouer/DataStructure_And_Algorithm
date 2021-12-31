@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 /**
  * kmp算法
+ * @author adouer
  */
 public class KmpDemo {
 

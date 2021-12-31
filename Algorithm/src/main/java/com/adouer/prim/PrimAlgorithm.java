@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 /**
  * 普里姆算法prim-修路问题
+ * @author adouer
  */
 public class PrimAlgorithm {
     public static void main(String[] args) {
