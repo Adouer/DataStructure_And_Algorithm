@@ -77,12 +77,14 @@ public class DijkstraAlgorithm {
             System.out.println("访问G后：already" + Arrays.toString(vv.already_arr));
             System.out.println("访问G后：pre_visited" + Arrays.toString(vv.pre_visited));
             System.out.println("访问G后：dis" + Arrays.toString(vv.dis));
+            System.out.println();
             for (int i = 1; i < this.vertex.length; i++) {
                 index = vv.updateArr();
                 update(index);
                 System.out.println("访问" + i + "后：already" + Arrays.toString(vv.already_arr));
                 System.out.println("访问" + i + "后：pre_visited" + Arrays.toString(vv.pre_visited));
                 System.out.println("访问" + i + "后：dis" + Arrays.toString(vv.dis));
+                System.out.println();
             }
         }
 
