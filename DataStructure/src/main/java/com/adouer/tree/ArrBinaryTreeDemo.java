@@ -14,7 +14,7 @@ public class ArrBinaryTreeDemo {
     }
 }
 
-/**F
+/**
  * 编写一个 ArrayBinaryTree,  实现顺序存储二叉树遍历
  */
 class ArrBinaryTree {
