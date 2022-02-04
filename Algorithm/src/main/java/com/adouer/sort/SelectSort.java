@@ -14,14 +14,14 @@ public class SelectSort {
         //int[] arr = {101, 34, 119, 1};
         int[] arr = new int[80000];
         for (int i = 0; i < 80000; i++) {
-            arr[i] =(int) (Math.random() * 800000);
+            arr[i] = (int) (Math.random() * 800000);
         }
 
         long start = System.currentTimeMillis();
         int[] ints = selectSort(arr);
         long end = System.currentTimeMillis();
         System.out.println("ints = " + Arrays.toString(ints));
-        System.out.println("耗时"+(end - start));
+        System.out.println("耗时" + (end - start));
 
     }
 
@@ -43,7 +43,6 @@ public class SelectSort {
                 arr[minIndex] = arr[i];
                 arr[i] = temp;
             }
-
         }
         return arr;
     }
