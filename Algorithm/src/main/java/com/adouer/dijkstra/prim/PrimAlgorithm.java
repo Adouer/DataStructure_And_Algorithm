@@ -1,4 +1,4 @@
-package com.adouer.prim;
+package com.adouer.dijkstra.prim;
 
 import java.util.Arrays;
 
